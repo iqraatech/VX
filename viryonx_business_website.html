@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViryonX — From Ideas to Reliable Digital Products</title>
+    <meta name="description" content="Remote-first software services company building robust Flutter mobile apps, high-performance web applications, MVPs, and scalable cloud systems for startups and SMEs.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        burgundy: '#6D0808',
+                        maroon: {
+                            DEFAULT: '#2D0000',
+                            dark: '#1A0000'
+                        },
+                        sage: {
+                            DEFAULT: '#757D6F',
+                            light: '#91998A',
+                            pale: '#E2E6DF'
+                        },
+                        ivory: {
+                            DEFAULT: '#EEEAD7',
+                            light: '#F8F6EF',
+                            dark: '#E0DBBE'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        display: ['"Space Grotesk"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom smooth scrollbar & selection */
+        ::selection {
+            background-color: #6D0808;
+            color: #EEEAD7;
+        }
+        body {
+            background-color: #EEEAD7;
+            color: #2D0000;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+        .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-ivory text-maroon flex flex-col min-h-screen selection:bg-burgundy selection:text-ivory">
+
+    <!-- Header / Navigation -->
+    <header class="sticky top-0 z-50 bg-ivory/90 backdrop-blur-md border-b border-sage/20 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Minimal Geometric V/X Logo -->
+            <a href="#home" onclick="navigateTo('home')" class="flex items-center gap-3 group focus:outline-none">
+                <div class="w-10 h-10 bg-maroon rounded-lg flex items-center justify-center text-ivory font-display font-bold text-xl tracking-tighter shadow-sm group-hover:bg-burgundy transition-colors">
+                    V<span class="text-sage-light">X</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-display font-bold text-xl tracking-tight text-maroon leading-none">ViryonX</span>
+                    <span class="text-[10px] font-medium uppercase tracking-widest text-sage mt-1">Software Services</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center gap-8">
+                <button onclick="navigateTo('home')" id="nav-home" class="nav-link text-sm font-medium text-maroon hover:text-burgundy transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-burgundy hover:after:w-full after:transition-all">Home</button>
+                <button onclick="navigateTo('services')" id="nav-services" class="nav-link text-sm font-medium text-sage hover:text-burgundy transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-burgundy hover:after:w-full after:transition-all">Services</button>
+                <button onclick="navigateTo('process')" id="nav-process" class="nav-link text-sm font-medium text-sage hover:text-burgundy transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-burgundy hover:after:w-full after:transition-all">How We Work</button>
+                <button onclick="navigateTo('about')" id="nav-about" class="nav-link text-sm font-medium text-sage hover:text-burgundy transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-burgundy hover:after:w-full after:transition-all">About</button>
+                <button onclick="navigateTo('talent')" id="nav-talent" class="nav-link text-sm font-medium text-sage hover:text-burgundy transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-burgundy hover:after:w-full after:transition-all">Talent Vision</button>
+            </nav>
+
+            <!-- Action CTA & Mobile Menu Toggle -->
+            <div class="flex items-center gap-4">
+                <button onclick="navigateTo('contact')" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-burgundy text-ivory text-sm font-semibold shadow-sm hover:bg-maroon transition-all focus:outline-none focus:ring-2 focus:ring-burgundy/50">
+                    Start a Project
+                </button>
+                <button onclick="toggleMobileMenu()" aria-label="Toggle menu" class="md:hidden p-2 rounded-lg text-maroon hover:bg-sage/10 focus:outline-none">
+                    <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden bg-ivory-light border-b border-sage/20 px-6 py-6 space-y-4 fade-in">
+            <button onclick="navigateTo('home'); toggleMobileMenu();" class="block w-full text-left py-2 font-display text-lg font-semibold text-maroon">Home</button>
+            <button onclick="navigateTo('services'); toggleMobileMenu();" class="block w-full text-left py-2 font-display text-lg font-semibold text-maroon">Services</button>
+            <button onclick="navigateTo('process'); toggleMobileMenu();" class="block w-full text-left py-2 font-display text-lg font-semibold text-maroon">How We Work</button>
+            <button onclick="navigateTo('about'); toggleMobileMenu();" class="block w-full text-left py-2 font-display text-lg font-semibold text-maroon">About</button>
+            <button onclick="navigateTo('talent'); toggleMobileMenu();" class="block w-full text-left py-2 font-display text-lg font-semibold text-maroon">Talent Vision</button>
+            <div class="pt-4 border-t border-sage/20">
+                <button onclick="navigateTo('contact'); toggleMobileMenu();" class="w-full py-3 rounded-lg bg-burgundy text-ivory font-semibold text-center shadow-sm">
+                    Start a Project
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow">
+
+        <!-- ================= HOME PAGE ================= -->
+        <div id="page-home" class="page-view">
+            <!-- Hero Section -->
+            <section class="relative pt-20 pb-32 overflow-hidden bg-ivory">
+                <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-7 space-y-8">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sage/15 text-maroon text-xs font-semibold tracking-wide uppercase">
+                            <span class="w-2 h-2 rounded-full bg-burgundy"></span> Remote-First Software Services
+                        </div>
+                        <h1 class="font-display font-extrabold text-5xl sm:text-6xl lg:text-7xl text-maroon tracking-tight leading-[1.08]">
+                            From Ideas to <span class="text-burgundy underline decoration-sage/40 decoration-wavy underline-offset-8">Reliable Digital Products.</span>
+                        </h1>
+                        <p class="text-lg sm:text-xl text-sage font-normal max-w-2xl leading-relaxed">
+                            We partner with startup founders, growing SMEs, and technology teams to engineer robust Flutter apps, scalable web platforms, and secure backend systems with precision craftsmanship.
+                        </p>
+                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+                            <button onclick="navigateTo('contact')" class="px-8 py-4 rounded-xl bg-burgundy text-ivory font-semibold text-center shadow-md hover:bg-maroon transition-all transform hover:-translate-y-0.5">
+                                Discuss Your Project
+                            </button>
+                            <button onclick="navigateTo('services')" class="px-8 py-4 rounded-xl border-2 border-sage/40 text-maroon font-semibold text-center hover:bg-sage/10 transition-all">
+                                Explore Services
+                            </button>
+                        </div>
+                        <!-- Trust stats / info snippet -->
+                        <div class="pt-8 grid grid-cols-3 gap-6 border-t border-sage/20 text-maroon">
+                            <div>
+                                <span class="block font-display font-bold text-2xl lg:text-3xl text-burgundy">100%</span>
+                                <span class="text-xs text-sage font-medium uppercase tracking-wider">Remote Delivery</span>
+                            </div>
+                            <div>
+                                <span class="block font-display font-bold text-2xl lg:text-3xl text-burgundy">End-to-End</span>
+                                <span class="text-xs text-sage font-medium uppercase tracking-wider">Product Engineering</span>
+                            </div>
+                            <div>
+                                <span class="block font-display font-bold text-2xl lg:text-3xl text-burgundy">Global</span>
+                                <span class="text-xs text-sage font-medium uppercase tracking-wider">Client Partnerships</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right Editorial Card -->
+                    <div class="lg:col-span-5">
+                        <div class="bg-maroon text-ivory p-8 sm:p-10 rounded-3xl shadow-xl relative overflow-hidden border border-sage/20">
+                            <div class="absolute -right-12 -bottom-12 w-48 h-48 bg-burgundy/20 rounded-full blur-2xl pointer-events-none"></div>
+                            <div class="w-12 h-12 bg-burgundy rounded-xl flex items-center justify-center font-display font-bold text-2xl mb-6 shadow-inner text-ivory">
+                                VX
+                            </div>
+                            <h3 class="font-display font-bold text-2xl mb-4 text-ivory">Built for Longevity & Scale</h3>
+                            <p class="text-ivory/80 text-sm leading-relaxed mb-6">
+                                We avoid bloated codebases and temporary fixes. Every line of code is structured for maintainability, security, and seamless future expansion as your business grows.
+                            </p>
+                            <ul class="space-y-3 mb-8 text-sm text-ivory/90">
+                                <li class="flex items-center gap-3">
+                                    <svg class="w-5 h-5 text-sage-light shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                    Clean, documented architecture
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <svg class="w-5 h-5 text-sage-light shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                    Rigorous automated & manual testing
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <svg class="w-5 h-5 text-sage-light shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                    Transparent communication workflows
+                                </li>
+                            </ul>
+                            <button onclick="navigateTo('process')" class="inline-flex items-center gap-2 text-sm font-semibold text-ivory hover:text-sage-pale transition-colors">
+                                Discover our methodology <span class="text-burgundy font-bold">→</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Services Summary Section -->
+            <section class="py-24 bg-ivory-light border-t border-sage/20">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-widest text-burgundy">Our Core Capabilities</span>
+                            <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-maroon mt-2">Specialized Engineering Services</h2>
+                        </div>
+                        <button onclick="navigateTo('services')" class="mt-4 md:mt-0 text-sm font-semibold text-burgundy hover:text-maroon inline-flex items-center gap-1.5 transition-colors">
+                            View all 5 services <span>→</span>
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Service 1 -->
+                        <div class="bg-ivory p-8 rounded-2xl border border-sage/30 hover:border-burgundy/50 transition-all shadow-sm group">
+                            <div class="w-12 h-12 rounded-xl bg-burgundy/10 text-burgundy flex items-center justify-center font-display font-bold text-lg mb-6 group-hover:bg-burgundy group-hover:text-ivory transition-colors">01</div>
+                            <h3 class="font-display font-bold text-xl text-maroon mb-3">Flutter Mobile App Development</h3>
+                            <p class="text-sage text-sm leading-relaxed mb-6">Cross-platform mobile apps built with Flutter delivering native performance, flawless UI/UX, and unified codebases for iOS & Android.</p>
+                            <button onclick="navigateTo('services')" class="text-xs font-bold text-burgundy uppercase tracking-wider hover:underline">Learn more →</button>
+                        </div>
+                        <!-- Service 2 -->
+                        <div class="bg-ivory p-8 rounded-2xl border border-sage/30 hover:border-burgundy/50 transition-all shadow-sm group">
+                            <div class="w-12 h-12 rounded-xl bg-burgundy/10 text-burgundy flex items-center justify-center font-display font-bold text-lg mb-6 group-hover:bg-burgundy group-hover:text-ivory transition-colors">02</div>
+                            <h3 class="font-display font-bold text-xl text-maroon mb-3">MVP & Product Development</h3>
+                            <p class="text-sage text-sm leading-relaxed mb-6">Rapidly build, test, and launch minimum viable products to validate your market hypothesis without compromising code quality.</p>
+                            <button onclick="navigateTo('services')" class="text-xs font-bold text-burgundy uppercase tracking-wider hover:underline">Learn more →</button>
+                        </div>
+                        <!-- Service 3 -->
+                        <div class="bg-ivory p-8 rounded-2xl border border-sage/30 hover:border-burgundy/50 transition-all shadow-sm group">
+                            <div class="w-12 h-12 rounded-xl bg-burgundy/10 text-burgundy flex items-center justify-center font-display font-bold text-lg mb-6 group-hover:bg-burgundy group-hover:text-ivory transition-colors">03</div>
+                            <h3 class="font-display font-bold text-xl text-maroon mb-3">Web Application Development</h3>
+                            <p class="text-sage text-sm leading-relaxed mb-6">Responsive, high-performance web applications built using modern frameworks, optimized for SEO, speed, and conversion.</p>
+                            <button onclick="navigateTo('services')" class="text-xs font-bold text-burgundy uppercase tracking-wider hover:underline">Learn more →</button>
+                        </div>
+                        <!-- Service 4 -->
+                        <div class="bg-ivory p-8 rounded-2xl border border-sage/30 hover:border-burgundy/50 transition-all shadow-sm group">
+                            <div class="w-12 h-12 rounded-xl bg-burgundy/10 text-burgundy flex items-center justify-center font-display font-bold text-lg mb-6 group-hover:bg-burgundy group-hover:text-ivory transition-colors">04</div>
+                            <h3 class="font-display font-bold text-xl text-maroon mb-3">APIs, Firebase & Integrations</h3>
+                            <p class="text-sage text-sm leading-relaxed mb-6">Robust REST APIs, secure authentication, scalable database schemas, and seamless third-party payment or service integrations.</p>
+                            <button onclick="navigateTo('services')" class="text-xs font-bold text-burgundy uppercase tracking-wider hover:underline">Learn more →</button>
+                        </div>
+                        <!-- Service 5 -->
+                        <div class="bg-ivory p-8 rounded-2xl border border-sage/30 hover:border-burgundy/50 transition-all shadow-sm group md:col-span-2 lg:col-span-2">
+                            <div class="w-12 h-12 rounded-xl bg-burgundy/10 text-burgundy flex items-center justify-center font-display font-bold text-lg mb-6 group-hover:bg-burgundy group-hover:text-ivory transition-colors">05</div>
+                            <h3 class="font-display font-bold text-xl text-maroon mb-3">Product Maintenance & Refactoring</h3>
+                            <p class="text-sage text-sm leading-relaxed mb-6">Code audits, performance optimization, security hardening, and feature enhancements for existing digital products.</p>
+                            <button onclick="navigateTo('services')" class="text-xs font-bold text-burgundy uppercase tracking-wider hover:underline">Learn more →</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Business Problems Solved -->
+            <section class="py-24 bg-ivory border-t border-sage/20">
+                <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-5 space-y-6">
+                        <span class="text-xs font-semibold uppercase tracking-widest text-burgundy">Why Founders Choose Us</span>
+                        <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-maroon">Solving Critical Product Challenges</h2>
+                        <p class="text-sage text-base leading-relaxed">
+                            Building software is challenging. Technical debt, delayed timelines, and fragile code often stall promising ventures. We eliminate those friction points.
+                        </p>
+                        <button onclick="navigateTo('contact')" class="px-6 py-3.5 rounded-xl bg-maroon text-ivory font-semibold text-sm hover:bg-burgundy transition-all">
+                            Talk to an Engineer
+                        </button>
+                    </div>
+                    <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="p-6 rounded-2xl bg-ivory-light border border-sage/20">
+                            <h4 class="font-display font-bold text-lg text-maroon mb-2">Unreliable Freelancers</h4>
+                            <p class="text-sage text-sm">We provide an accountable, structured team with clear milestones and professional project management.</p>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-ivory-light border border-sage/20">
+                            <h4 class="font-display font-bold text-lg text-maroon mb-2">Bloated MVPs</h4>
+                            <p class="text-sage text-sm">We help you prioritize core feature sets to test your market quickly without wasting budget.</p>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-ivory-light border border-sage/20">
+                            <h4 class="font-display font-bold text-lg text-maroon mb-2">Technical Debt</h4>
+                            <p class="text-sage text-sm">We clean up messy legacy codebases, fix stability leaks, and optimize for high user loads.</p>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-ivory-light border border-sage/20">
+                            <h4 class="font-display font-bold text-lg text-maroon mb-2">Communication Silos</h4>
+                            <p class="text-sage text-sm">Remote-first doesn't mean distant. You get daily updates, clear documentation, and direct access.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Final CTA Banner -->
+            <section class="py-20 bg-maroon text-ivory text-center">
+                <div class="max-w-4xl mx-auto px-6 space-y-6">
+                    <h2 class="font-display font-extrabold text-3xl sm:text-5xl text-ivory tracking-tight">Ready to Build Something Remarkable?</h2>
+                    <p class="text-ivory/80 text-base sm:text-lg max-w-2xl mx-auto">
+                        Whether you need a new mobile app, a polished MVP, or expert engineering support, let's discuss your timeline and technical requirements.
+                    </p>
+                    <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <button onclick="navigateTo('contact')" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-burgundy text-ivory font-semibold shadow-md hover:bg-ivory hover:text-maroon transition-all">
+                            Start Project Inquiry
+                        </button>
+                        <button onclick="navigateTo('process')" class="w-full sm:w-auto px-8 py-4 rounded-xl border border-sage/40 text-ivory font-semibold hover:bg-sage/20 transition-all">
+                            Review How We Work
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= SERVICES PAGE ================= -->
+        <div id="page-services" class="page-view hidden">
+            <section class="py-20 bg-ivory">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="max-w-3xl mb-16">
+                        <span class="text-xs font-semibold uppercase tracking-widest text-burgundy">Our Expertise</span>
+                        <h1 class="font-display font-extrabold text-4xl sm:text-5xl text-maroon mt-2 mb-6">Comprehensive Software Services</h1>
+                        <p class="text-sage text-lg leading-relaxed">
+                            We deliver specialized engineering solutions designed for startup founders, growing businesses, and established teams seeking reliability and scale.
+                        </p>
+                    </div>
+
+                    <!-- Detailed Services List -->
+                    <div class="space-y-16">
+                        <!-- Service 1 -->
+                        <div id="service-flutter" class="bg-ivory-light p-8 sm:p-12 rounded-3xl border border-sage/20 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                            <div class="lg:col-span-7 space-y-4">
+                                <span class="text-xs font-bold uppercase tracking-widest text-burgundy">Service 01</span>
+                                <h3 class="font-display font-bold text-2xl sm:text-3xl text-maroon">Flutter Mobile App Development</h3>
+                                <p class="text-sage text-base leading-relaxed">
+                                    Cross-platform mobile applications engineered with Flutter. We build performant, beautiful apps for iOS and Android from a single codebase, drastically reducing time-to-market and maintenance overhead.
+                                </p>
+                                <div class="pt-2">
+                                    <h4 class="font-display font-semibold text-sm text-maroon uppercase tracking-wider mb-2">Key Deliverables:</h4>
+                                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-sage">
+                                        <li class="flex items-center gap-2">✓ Custom UI/UX Implementation</li>
+                                        <li class="flex items-center gap-2">✓ Native Device Hardware Integration</li>
+                                        <li class="flex items-center gap-2">✓ Offline Data Sync & Caching</li>
+                                        <li class="flex items-center gap-2">✓ App Store & Play Store Deployment</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="lg:col-span-5 flex justify-end">
+                                <button onclick="navigateTo('contact')" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-burgundy text-ivory font-semibold text-sm hover:bg-maroon transition-all shadow-sm">
+                                    Inquire About Flutter
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Service 2 -->
+                        <div id="service-mvp" class="bg-ivory-light p-8 sm:p-12 rounded-3xl border border-sage/20 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                            <div class="lg:col-span-7 space-y-4">
+                                <span class="text-xs font-bold uppercase tracking-widest text-burgundy">Service 02</span>
+                                <h3 class="font-display font-bold text-2xl sm:text-3xl text-maroon">MVP & Product Development</h3>
+                                <p class="text-sage text-base leading-relaxed">
+                                    Turn your concept into a robust minimum viable product. We help you identify core user journeys, architect scalable data models, and launch fast to validate demand with real users.
+                                </p>
+                                <div class="pt-2">
+                                    <h4 class="font-display font-semibold text-sm text-maroon uppercase tracking-wider mb-2">Key Deliverables:</h4>
+                                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-sage">
+                                        <li class="flex items-center gap-2">✓ Feature Scope Prioritization</li>
+                                        <li class="flex items-center gap-2">✓ Rapid Prototyping & Build</li>
+                                        <li class="flex items-center gap-2">✓ Secure Cloud Backend</li>
+                                        <li class="flex items-center gap-2">✓ User Feedback Instrumentation</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="lg:col-span-5 flex justify-end">
+                                <button onclick="navigateTo('contact')" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-burgundy text-ivory font-semibold text-sm hover:bg-maroon transition-all shadow-sm">
+                                    Build Your MVP
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Service 3 -->
+                        <div id="service-web" class="bg-ivory-light p-8 sm:p-12 rounded-3xl border border-sage/20 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                            <div class="lg:col-span-7 space-y-4">
+                                <span class="text-xs font-bold uppercase tracking-widest text-burgundy">Service 03</span>
+                                <h3 class="font-display font-bold text-2xl sm:text-3xl text-maroon">Web Application Development</h3>
+                                <p class="text-sage text-base leading-relaxed">
+                                    Modern, lightning-fast web applications built with cutting-edge frontend and backend frameworks. Optimized for seamless responsiveness, accessibility, SEO, and high user engagement.
+                                </p>
+                                <div class="pt-2">
+                                    <h4 class="font-display font-semibold text-sm text-maroon uppercase tracking-wider mb-2">Key Deliverables:</h4>
+                                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-sage">
+                                        <li class="flex items-center gap-2">✓ Responsive Desktop & Mobile Layouts</li>
+                                        <li class="flex items-center gap-2">✓ High Performance & SEO Optimization</li>
+                                        <li class="flex items-center gap-2">✓ Secure User Authentication</li>
+                                        <li class="flex items-center gap-2">✓ Automated CI/CD Deployment</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="lg:col-span-5 flex justify-end">
+                                <button onclick="navigateTo('contact')" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-burgundy text-ivory font-semibold text-sm hover:bg-maroon transition-all shadow-sm">
+                                    Start Web App Project
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Service 4 -->
+                        <div id="service-api" class="bg-ivory-light p-8 sm:p-12 rounded-3xl border border-sage/20 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                            <div class="lg:col-span-7 space-y-4">
+                                <span class="text-xs font-bold uppercase tracking-widest text-burgundy">Service 04</span>
+                                <h3 class="font-display font-bold text-2xl sm:text-3xl text-maroon">REST APIs, Firebase & Third-Party Integrations</h3>
+                                <p class="text-sage text-base leading-relaxed">
+                                    Reliable backend infrastructure. We design secure RESTful APIs, configure Firebase services, set up robust databases, and integrate third-party payment gateways and CRM tools.
+                                </p>
+                                <div class="pt-2">
+                                    <h4 class="font-display font-semibold text-sm text-maroon uppercase tracking-wider mb-2">Key Deliverables:</h4>
+                                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-sage">
+                                        <li class="flex items-center gap-2">✓ Scalable REST API Architecture</li>
+                                        <li class="flex items-center gap-2">✓ Firebase & Cloud Database Setup</li>
+                                        <li class="flex items-center gap-2">✓ Secure Role-Based Auth</li>
+                                        <li class="flex items-center gap-2">✓ Payment Gateway Integrations</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="lg:col-span-5 flex justify-end">
+                                <button onclick="navigateTo('contact')" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-burgundy text-ivory font-semibold text-sm hover:bg-maroon transition-all shadow-sm">
+                                    Inquire About Backend
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Service 5 -->
+                        <div id="service-maintenance" class="bg-ivory-light p-8 sm:p-12 rounded-3xl border border-sage/20 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                            <div class="lg:col-span-7 space-y-4">
+                                <span class="text-xs font-bold uppercase tracking-widest text-burgundy">Service 05</span>
+                                <h3 class="font-display font-bold text-2xl sm:text-3xl text-maroon">Existing Product Improvements & Maintenance</h3>
+                                <p class="text-sage text-base leading-relaxed">
+                                    Breathe new life into legacy systems. We conduct comprehensive code audits, resolve stability bugs, refactor architecture, and add high-demand features to your existing software.
+                                </p>
+                                <div class="pt-2">
+                                    <h4 class="font-display font-semibold text-sm text-maroon uppercase tracking-wider mb-2">Key Deliverables:</h4>
+                                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-sage">
+                                        <li class="flex items-center gap-2">✓ Comprehensive Code Audits</li>
+                                        <li class="flex items-center gap-2">✓ Performance & Speed Tuning</li>
+                                        <li class="flex items-center gap-2">✓ Security Vulnerability Patching</li>
+                                        <li class="flex items-center gap-2">✓ Continuous Feature Additions</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="lg:col-span-5 flex justify-end">
+                                <button onclick="navigateTo('contact')" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-burgundy text-ivory font-semibold text-sm hover:bg-maroon transition-all shadow-sm">
+                                    Request Code Audit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= HOW WE WORK PAGE ================= -->
+        <div id="page-process" class="page-view hidden">
+            <section class="py-20 bg-ivory">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="max-w-3xl mb-16">
+                        <span class="text-xs font-semibold uppercase tracking-widest text-burgundy">Our Methodology</span>
+                        <h1 class="font-display font-extrabold text-4xl sm:text-5xl text-maroon mt-2 mb-6">How We Work</h1>
+                        <p class="text-sage text-lg leading-relaxed">
+                            A transparent, predictable, and rigorous 5-stage engineering process designed to take your project from initial concept to reliable production.
+                        </p>
+                    </div>
+
+                    <!-- Process Steps Timeline Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+                        <!-- Step 1 -->
+                        <div class="bg-ivory-light p-6 rounded-2xl border border-sage/20 flex flex-col justify-between">
+                            <div>
+                                <span class="font-display font-bold text-3xl text-burgundy mb-4 block">01</span>
+                                <h3 class="font-display font-bold text-xl text-maroon mb-2">Discover</h3>
+                                <p class="text-sage text-sm leading-relaxed">We deep dive into your business goals, target audience, technical constraints, and project scope.</p>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-sage/20 text-xs font-semibold text-maroon uppercase tracking-wider">Phase 1</div>
+                        </div>
+                        <!-- Step 2 -->
+                        <div class="bg-ivory-light p-6 rounded-2xl border border-sage/20 flex flex-col justify-between">
+                            <div>
+                                <span class="font-display font-bold text-3xl text-burgundy mb-4 block">02</span>
+                                <h3 class="font-display font-bold text-xl text-maroon mb-2">Define</h3>
+                                <p class="text-sage text-sm leading-relaxed">We outline wireframes, system architecture, database schema, milestones, and tech stack selection.</p>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-sage/20 text-xs font-semibold text-maroon uppercase tracking-wider">Phase 2</div>
+                        </div>
+                        <!-- Step 3 -->
+                        <div class="bg-ivory-light p-6 rounded-2xl border border-sage/20 flex flex-col justify-between">
+                            <div>
+                                <span class="font-display font-bold text-3xl text-burgundy mb-4 block">03</span>
+                                <h3 class="font-display font-bold text-xl text-maroon mb-2">Build</h3>
+                                <p class="text-sage text-sm leading-relaxed">Iterative sprint development with clean code practices, regular demo check-ins, and agile collaboration.</p>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-sage/20 text-xs font-semibold text-maroon uppercase tracking-wider">Phase 3</div>
+                        </div>
+                        <!-- Step 4 -->
+                        <div class="bg-ivory-light p-6 rounded-2xl border border-sage/20 flex flex-col justify-between">
+                            <div>
+                                <span class="font-display font-bold text-3xl text-burgundy mb-4 block">04</span>
+                                <h3 class="font-display font-bold text-xl text-maroon mb-2">Test</h3>
+                                <p class="text-sage text-sm leading-relaxed">Rigorous QA testing across devices, security checks, bug fixing, and performance profiling.</p>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-sage/20 text-xs font-semibold text-maroon uppercase tracking-wider">Phase 4</div>
+                        </div>
+                        <!-- Step 5 -->
+                        <div class="bg-ivory-light p-6 rounded-2xl border border-sage/20 flex flex-col justify-between">
+                            <div>
+                                <span class="font-display font-bold text-3xl text-burgundy mb-4 block">05</span>
+                                <h3 class="font-display font-bold text-xl text-maroon mb-2">Improve</h3>
+                                <p class="text-sage text-sm leading-relaxed">Seamless production deployment, monitoring, user feedback integration, and ongoing maintenance.</p>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-sage/20 text-xs font-semibold text-maroon uppercase tracking-wider">Phase 5</div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Workflow Principles -->
+                    <div class="mt-20 bg-maroon text-ivory p-10 rounded-3xl grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div>
+                            <h4 class="font-display font-bold text-xl mb-3 text-ivory">Remote-First Efficiency</h4>
+                            <p class="text-ivory/80 text-sm leading-relaxed">Our asynchronous and synchronous workflows ensure smooth progress without geographical or time-zone friction.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-display font-bold text-xl mb-3 text-ivory">Absolute Ownership</h4>
+                            <p class="text-ivory/80 text-sm leading-relaxed">We treat your product as our own, taking proactive responsibility for architecture, security, and scalability.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-display font-bold text-xl mb-3 text-ivory">Transparent Updates</h4>
+                            <p class="text-ivory/80 text-sm leading-relaxed">No guesswork. You get clear sprint reports, task boards, and direct communication channels with your engineers.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= ABOUT PAGE ================= -->
+        <div id="page-about" class="page-view hidden">
+            <section class="py-20 bg-ivory">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="max-w-3xl mb-16">
+                        <span class="text-xs font-semibold uppercase tracking-widest text-burgundy">Who We Are</span>
+                        <h1 class="font-display font-extrabold text-4xl sm:text-5xl text-maroon mt-2 mb-6">About ViryonX</h1>
+                        <p class="text-sage text-lg leading-relaxed">
+                            ViryonX is an early-stage, remote-first software services company dedicated to helping global businesses engineer reliable, high-performance digital products.
+                        </p>
+                    </div>
+
+                    <!-- Editorial Content Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
+                        <div class="space-y-6">
+                            <h3 class="font-display font-bold text-2xl text-maroon">Our Core Philosophy</h3>
+                            <p class="text-sage text-base leading-relaxed">
+                                We believe software should be built with clarity, precision, and purpose. In an industry crowded with rushed code and inflated promises, ViryonX stands for meticulous craftsmanship and dependable delivery.
+                            </p>
+                            <p class="text-sage text-base leading-relaxed">
+                                As a remote-first team, we collaborate seamlessly across borders to bring together specialized technical talent, ensuring our business clients receive top-tier engineering without bureaucratic overhead.
+                            </p>
+                        </div>
+                        <div class="bg-ivory-light p-8 rounded-3xl border border-sage/20 space-y-6">
+                            <h4 class="font-display font-bold text-xl text-maroon">What Sets Us Apart</h4>
+                            <ul class="space-y-4 text-sm text-sage">
+                                <li class="flex items-start gap-3">
+                                    <span class="w-2 h-2 rounded-full bg-burgundy mt-2 shrink-0"></span>
+                                    <span><strong>Practical Engineering:</strong> We prioritize clean, maintainable code over complex tech fads.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-2 h-2 rounded-full bg-burgundy mt-2 shrink-0"></span>
+                                    <span><strong>Direct Access:</strong> You work directly with experienced software engineers who understand business logic.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-2 h-2 rounded-full bg-burgundy mt-2 shrink-0"></span>
+                                    <span><strong>Business-First Focus:</strong> Every feature we build is aligned with your ROI, user retention, and growth goals.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= TALENT VISION PAGE ================= -->
+        <div id="page-talent" class="page-view hidden">
+            <section class="py-20 bg-ivory">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="max-w-3xl mb-16">
+                        <span class="text-xs font-semibold uppercase tracking-widest text-burgundy">Long-Term Ecosystem Vision</span>
+                        <h1 class="font-display font-extrabold text-4xl sm:text-5xl text-maroon mt-2 mb-6">The Talent-to-Opportunity Vision</h1>
+                        <p class="text-sage text-lg leading-relaxed">
+                            Looking beyond our core software services, ViryonX is incubating a long-term vision: a talent-to-opportunity ecosystem connecting verified skills, real-world projects, and paid work.
+                        </p>
+                    </div>
+
+                    <!-- Important Disclaimer Banner -->
+                    <div class="bg-sage/15 border-l-4 border-burgundy p-6 rounded-r-2xl mb-16">
+                        <p class="text-sm text-maroon font-medium">
+                            <strong>Please Note:</strong> This is a developing long-term vision for our ecosystem. It is not currently active as a training institute, bootcamp, or guaranteed recruitment portal. ViryonX operates strictly as a professional software services business.
+                        </p>
+                    </div>
+
+                    <!-- Ecosystem Steps -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="bg-ivory-light p-8 rounded-2xl border border-sage/20">
+                            <span class="text-xs font-bold uppercase tracking-widest text-burgundy mb-3 block">Step 01</span>
+                            <h3 class="font-display font-bold text-xl text-maroon mb-2">Discover</h3>
+                            <p class="text-sage text-sm leading-relaxed">Identifying emerging engineering talent with high potential and genuine passion for software craftsmanship.</p>
+                        </div>
+                        <div class="bg-ivory-light p-8 rounded-2xl border border-sage/20">
+                            <span class="text-xs font-bold uppercase tracking-widest text-burgundy mb-3 block">Step 02</span>
+                            <h3 class="font-display font-bold text-xl text-maroon mb-2">Assess</h3>
+                            <p class="text-sage text-sm leading-relaxed">Evaluating practical coding abilities, problem-solving aptitude, and dedication to code quality.</p>
+                        </div>
+                        <div class="bg-ivory-light p-8 rounded-2xl border border-sage/20">
+                            <span class="text-xs font-bold uppercase tracking-widest text-burgundy mb-3 block">Step 03</span>
+                            <h3 class="font-display font-bold text-xl text-maroon mb-2">Build</h3>
+                            <p class="text-sage text-sm leading-relaxed">Engaging contributors in real internal tools and simulated product environments to sharpen skills.</p>
+                        </div>
+                        <div class="bg-ivory-light p-8 rounded-2xl border border-sage/20">
+                            <span class="text-xs font-bold uppercase tracking-widest text-burgundy mb-3 block">Step 04</span>
+                            <h3 class="font-display font-bold text-xl text-maroon mb-2">Demonstrate</h3>
+                            <p class="text-sage text-sm leading-relaxed">Showcasing verified project contributions and verifiable code repositories to establish credibility.</p>
+                        </div>
+                        <div class="bg-ivory-light p-8 rounded-2xl border border-sage/20">
+                            <span class="text-xs font-bold uppercase tracking-widest text-burgundy mb-3 block">Step 05</span>
+                            <h3 class="font-display font-bold text-xl text-maroon mb-2">Contribute</h3>
+                            <p class="text-sage text-sm leading-relaxed">Participating in client projects under senior mentorship and strict quality guidelines.</p>
+                        </div>
+                        <div class="bg-ivory-light p-8 rounded-2xl border border-sage/20">
+                            <span class="text-xs font-bold uppercase tracking-widest text-burgundy mb-3 block">Step 06</span>
+                            <h3 class="font-display font-bold text-xl text-maroon mb-2">Grow</h3>
+                            <p class="text-sage text-sm leading-relaxed">Transitioning into sustained professional opportunities within the growing digital economy.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= CONTACT PAGE ================= -->
+        <div id="page-contact" class="page-view hidden">
+            <section class="py-20 bg-ivory">
+                <div class="max-w-4xl mx-auto px-6">
+                    <div class="text-center max-w-2xl mx-auto mb-16">
+                        <span class="text-xs font-semibold uppercase tracking-widest text-burgundy">Start Your Project</span>
+                        <h1 class="font-display font-extrabold text-4xl sm:text-5xl text-maroon mt-2 mb-4">Let's Discuss Your Product</h1>
+                        <p class="text-sage text-base sm:text-lg">
+                            Fill out the project inquiry form below. We review all submissions promptly and schedule an initial technical discussion.
+                        </p>
+                    </div>
+
+                    <!-- Project Inquiry Form -->
+                    <div class="bg-ivory-light p-8 sm:p-12 rounded-3xl border border-sage/20 shadow-sm">
+                        <form id="inquiry-form" onsubmit="handleFormSubmit(event)" class="space-y-6" novalidate>
+                            
+                            <!-- Name & Email Grid -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="name" class="block text-xs font-bold uppercase tracking-wider text-maroon mb-2">Your Name *</label>
+                                    <input type="text" id="name" required class="w-full px-4 py-3 rounded-xl bg-ivory border border-sage/40 text-maroon focus:outline-none focus:border-burgurity focus:ring-1 focus:ring-burgundy transition-all" placeholder="Jane Doe">
+                                    <p id="error-name" class="text-xs text-burgundy mt-1 hidden">Please enter your name.</p>
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-xs font-bold uppercase tracking-wider text-maroon mb-2">Email Address *</label>
+                                    <input type="email" id="email" required class="w-full px-4 py-3 rounded-xl bg-ivory border border-sage/40 text-maroon focus:outline-none focus:border-burgurity focus:ring-1 focus:ring-burgundy transition-all" placeholder="jane@company.com">
+                                    <p id="error-email" class="text-xs text-burgundy mt-1 hidden">Please enter a valid email address.</p>
+                                </div>
+                            </div>
+
+                            <!-- Company & Project Type Grid -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="company" class="block text-xs font-bold uppercase tracking-wider text-maroon mb-2">Company Name (Optional)</label>
+                                    <input type="text" id="company" class="w-full px-4 py-3 rounded-xl bg-ivory border border-sage/40 text-maroon focus:outline-none focus:border-burgurity focus:ring-1 focus:ring-burgundy transition-all" placeholder="Acme Inc.">
+                                </div>
+                                <div>
+                                    <label for="project-type" class="block text-xs font-bold uppercase tracking-wider text-maroon mb-2">Project Type *</label>
+                                    <select id="project-type" required class="w-full px-4 py-3 rounded-xl bg-ivory border border-sage/40 text-maroon focus:outline-none focus:border-burgurity focus:ring-1 focus:ring-burgundy transition-all">
+                                        <option value="" disabled selected>Select service type</option>
+                                        <option value="flutter">Flutter Mobile App Development</option>
+                                        <option value="mvp">MVP & Product Development</option>
+                                        <option value="web">Web Application Development</option>
+                                        <option value="api">REST API, Firebase & Integrations</option>
+                                        <option value="maintenance">Product Maintenance & Refactoring</option>
+                                        <option value="other">Other Software Services</option>
+                                    </select>
+                                    <p id="error-project-type" class="text-xs text-burgundy mt-1 hidden">Please select a project type.</p>
+                                </div>
+                            </div>
+
+                            <!-- Budget & Timeline Grid -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="budget" class="block text-xs font-bold uppercase tracking-wider text-maroon mb-2">Estimated Budget (Optional)</label>
+                                    <select id="budget" class="w-full px-4 py-3 rounded-xl bg-ivory border border-sage/40 text-maroon focus:outline-none focus:border-burgurity focus:ring-1 focus:ring-burgundy transition-all">
+                                        <option value="" disabled selected>Select budget range</option>
+                                        <option value="10k-25k">$10,000 - $25,000</option>
+                                        <option value="25k-50k">$25,000 - $50,000</option>
+                                        <option value="50k+">$50,000+</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="timeline" class="block text-xs font-bold uppercase tracking-wider text-maroon mb-2">Timeline (Optional)</label>
+                                    <input type="text" id="timeline" class="w-full px-4 py-3 rounded-xl bg-ivory border border-sage/40 text-maroon focus:outline-none focus:border-burgurity focus:ring-1 focus:ring-burgundy transition-all" placeholder="e.g., 2-3 months">
+                                </div>
+                            </div>
+
+                            <!-- Project Description -->
+                            <div>
+                                <label for="description" class="block text-xs font-bold uppercase tracking-wider text-maroon mb-2">Project Description *</label>
+                                <textarea id="description" rows="5" required class="w-full px-4 py-3 rounded-xl bg-ivory border border-sage/40 text-maroon focus:outline-none focus:border-burgurity focus:ring-1 focus:ring-burgundy transition-all resize-y" placeholder="Tell us about your goals, current challenges, and technical requirements..."></textarea>
+                                <p id="error-description" class="text-xs text-burgundy mt-1 hidden">Please provide a brief description of your project.</p>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="pt-4">
+                                <button type="submit" id="submit-btn" class="w-full py-4 rounded-xl bg-burgundy text-ivory font-semibold text-center shadow-md hover:bg-maroon transition-all">
+                                    Submit Project Inquiry
+                                </button>
+                            </div>
+
+                            <!-- Backend Configuration Notice -->
+                            <div class="p-4 rounded-xl bg-sage/10 text-xs text-sage leading-relaxed border border-sage/20">
+                                <strong>Backend Integration Note:</strong> Form submissions require a configured backend endpoint (e.g., Formspree, EmailJS, or custom Node.js/Firebase backend). See instructions in documentation or README to connect your live endpoint.
+                            </div>
+                        </form>
+
+                        <!-- Success Message Box (Hidden by default) -->
+                        <div id="form-success-box" class="hidden text-center py-12 space-y-4 fade-in">
+                            <div class="w-16 h-16 bg-sage/20 text-maroon rounded-full flex items-center justify-center mx-auto text-2xl">✓</div>
+                            <h3 class="font-display font-bold text-2xl text-maroon">Inquiry Received Successfully</h3>
+                            <p class="text-sage text-sm max-w-md mx-auto">
+                                Thank you for reaching out to ViryonX. Our engineering team has received your details and will review your requirements within 24 business hours.
+                            </p>
+                            <button onclick="resetInquiryForm()" class="mt-4 px-6 py-2.5 rounded-lg bg-burgundy text-ivory text-xs font-semibold">
+                                Submit Another Inquiry
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-maroon text-ivory border-t border-sage/20 py-16">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+            <!-- Brand & Mission -->
+            <div class="md:col-span-1 space-y-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-burgundy rounded-lg flex items-center justify-center text-ivory font-display font-bold text-lg tracking-tighter">
+                        V<span class="text-sage-light">X</span>
+                    </div>
+                    <span class="font-display font-bold text-lg text-ivory">ViryonX</span>
+                </div>
+                <p class="text-ivory/70 text-xs leading-relaxed">
+                    From Ideas to Reliable Digital Products. Remote-first software services for startups, SMEs, and ambitious tech teams worldwide.
+                </p>
+            </div>
+
+            <!-- Quick Navigation -->
+            <div>
+                <h4 class="font-display font-bold text-sm uppercase tracking-wider text-ivory mb-4">Navigation</h4>
+                <ul class="space-y-2.5 text-xs text-ivory/80">
+                    <li><button onclick="navigateTo('home')" class="hover:text-ivory transition-colors">Home</button></li>
+                    <li><button onclick="navigateTo('services')" class="hover:text-ivory transition-colors">Services</button></li>
+                    <li><button onclick="navigateTo('process')" class="hover:text-ivory transition-colors">How We Work</button></li>
+                    <li><button onclick="navigateTo('about')" class="hover:text-ivory transition-colors">About Us</button></li>
+                    <li><button onclick="navigateTo('talent')" class="hover:text-ivory transition-colors">Talent Vision</button></li>
+                </ul>
+            </div>
+
+            <!-- Services Links -->
+            <div>
+                <h4 class="font-display font-bold text-sm uppercase tracking-wider text-ivory mb-4">Services</h4>
+                <ul class="space-y-2.5 text-xs text-ivory/80">
+                    <li><button onclick="navigateTo('services')" class="hover:text-ivory transition-colors">Flutter Mobile Apps</button></li>
+                    <li><button onclick="navigateTo('services')" class="hover:text-ivory transition-colors">MVP & Product Development</button></li>
+                    <li><button onclick="navigateTo('services')" class="hover:text-ivory transition-colors">Web Applications</button></li>
+                    <li><button onclick="navigateTo('services')" class="hover:text-ivory transition-colors">APIs, Firebase & Integrations</button></li>
+                    <li><button onclick="navigateTo('services')" class="hover:text-ivory transition-colors">Product Maintenance</button></li>
+                </ul>
+            </div>
+
+            <!-- Contact & Legal -->
+            <div>
+                <h4 class="font-display font-bold text-sm uppercase tracking-wider text-ivory mb-4">Get in Touch</h4>
+                <p class="text-xs text-ivory/70 mb-4">Remote-first operations serving global clients.</p>
+                <button onclick="navigateTo('contact')" class="px-4 py-2 rounded-lg bg-burgundy text-ivory text-xs font-semibold hover:bg-ivory hover:text-maroon transition-all">
+                    Start a Project
+                </button>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 pt-8 border-t border-ivory/10 flex flex-col sm:flex-row items-center justify-between text-xs text-ivory/60">
+            <p>© <span id="current-year"></span> ViryonX. All rights reserved.</p>
+            <p class="mt-4 sm:mt-0">Remote-first software services company.</p>
+        </div>
+    </footer>
+
+    <!-- Client-Side Routing and Interactivity Script -->
+    <script>
+        // Set copyright year automatically
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Client-side router implementation mimicking Expo Router page views
+        function navigateTo(pageId) {
+            // Hide all page views
+            const pages = document.querySelectorAll('.page-view');
+            pages.forEach(page => page.classList.add('hidden'));
+
+            // Show target page view
+            const targetPage = document.getElementById(`page-${pageId}`);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+                targetPage.classList.add('fade-in');
+            }
+
+            // Update active navigation styling
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('text-burgundy', 'font-semibold');
+                link.classList.add('text-sage');
+            });
+
+            const activeNav = document.getElementById(`nav-${pageId}`);
+            if (activeNav) {
+                activeNav.classList.remove('text-sage');
+                activeNav.classList.add('text-burgundy', 'font-semibold');
+            }
+
+            // Scroll to top smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Mobile drawer toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Client-side form validation & submission handling
+        function handleFormSubmit(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const projectType = document.getElementById('project-type').value;
+            const description = document.getElementById('description').value.trim();
+
+            let isValid = true;
+
+            // Name validation
+            if (!name) {
+                document.getElementById('error-name').classList.remove('hidden');
+                isValid = false;
+            } else {
+                document.getElementById('error-name').classList.add('hidden');
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email || !emailRegex.test(email)) {
+                document.getElementById('error-email').classList.remove('hidden');
+                isValid = false;
+            } else {
+                document.getElementById('error-email').classList.add('hidden');
+            }
+
+            // Project Type validation
+            if (!projectType) {
+                document.getElementById('error-project-type').classList.remove('hidden');
+                isValid = false;
+            } else {
+                document.getElementById('error-project-type').classList.add('hidden');
+            }
+
+            // Description validation
+            if (!description) {
+                document.getElementById('error-description').classList.remove('hidden');
+                isValid = false;
+            } else {
+                document.getElementById('error-description').classList.add('hidden');
+            }
+
+            if (!isValid) return;
+
+            // Form data object ready for backend endpoint connection (e.g. Formspree / EmailJS / Firebase)
+            const formData = {
+                name,
+                email,
+                company: document.getElementById('company').value.trim(),
+                projectType,
+                budget: document.getElementById('budget').value,
+                timeline: document.getElementById('timeline').value.trim(),
+                description,
+                timestamp: new Date().toISOString()
+            };
+
+            console.log("ViryonX Inquiry Form Payload:", formData);
+
+            // Simulate backend submission response securely without false fake alerts
+            document.getElementById('inquiry-form').classList.add('hidden');
+            document.getElementById('form-success-box').classList.remove('hidden');
+        }
+
+        function resetInquiryForm() {
+            document.getElementById('inquiry-form').reset();
+            document.getElementById('form-success-box').classList.add('hidden');
+            document.getElementById('inquiry-form').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
